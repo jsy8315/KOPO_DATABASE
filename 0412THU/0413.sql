@@ -1,3 +1,8 @@
+--JOIN 복습
+
+
+
+
 --primary key
 
 DROP TABLE CUSTOMERUNI;
@@ -26,3 +31,43 @@ INSERT INTO CUSTOMERPRI(PWD, NAME) VALUES('ok', 'kim');
 
 UPDATE CUSTOMERPRI SET ID = NULL;
 UPDATE CUSTOMERPRI SET ID = 'XMAN';
+
+--FOREIGN KEY
+
+CREATE TABLE 부서 (부서번호   VARCHAR2(2)     CONSTRAINT 부서_부서번호_PK   PRIMARY KEY,
+                  부서명     VARCHAR(10)     CONSTRAINT 부서_부서명_NN     NOT NULL
+                  );
+                  
+CREATE TABLE 사원 (사번      VARCHAR2(8)    PRIMARY KEY,
+                  이름      VARCHAR2(10),
+                  부서번호   VARCHAR2(2),
+                  CONSTRAINT 사원_부서_부서번호_FK FOREIGN KEY(부서번호)
+                                    REFERENCES 부서(부서번호));
+SELECT * FROM 부서;
+SELECT * FROM 사원;
+
+DESC 사원
+SELECT 
+CONSTRAINT_NAME, CONSTRAINT_TYPE, TABLE_NAME,SEARCH_CONDITION,R_CONSTRAINT_NAME,DELETE_RULE,STATUS
+FROM USER_CONSTRAINTS
+WHERE TABLE_NAME IN ('부서', '사원');
+
+INSERT INTO 사원(사번, 이름, 부서번호) VALUES ('XMAN', 'TUNER', '10');
+
+INSERT INTO 부서(부서번호, 부서명) VALUES('10', '관리');
+INSERT INTO 부서(부서번호, 부서명) VALUES('20', '전산');
+INSERT INTO 부서(부서번호, 부서명) VALUES('50', '영업');
+
+INSERT INTO 사원(사번, 이름, 부서번호) VALUES('YMAN', 'DBA', '20');
+
+INSERT INTO 사원(사번, 이름, 부서번호) VALUES('ZMAN', 'DEVELOPER', 30);
+
+DELETE FROM 부서 WHERE 부서번호 = 50;
+
+DELETE FROM 부서 WHERE 부서번호 = 10;
+
+SELECT * FROM 사원;
+
+UPDATE 사원 SET 부서번호 = 20 WHERE 부서번호 = 10;
+DELETE FROM 부서 WHERE 부서번호 = 10;
+                 
